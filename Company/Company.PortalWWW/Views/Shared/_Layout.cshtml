@@ -117,13 +117,6 @@
     <script src="~/lib/materialize/js/materialize.js"></script>
     <script src="~/lib/materialize/js/materialize.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        (function($){
-            $(function(){
-              $('.sidenav').sidenav();
-            }); // end of document ready
-          })(jQuery); // end of jQuery name space
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
