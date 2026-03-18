@@ -1,16 +1,33 @@
+using Company.Data.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Company.PortalWWW
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var app = ApplyBuilderPatternToBuildApp(args);
+            InitializeAutomaticMigrations(app);
+            InitializeDevelopmentEnviroment(app);
+            InitializeRoutingAndHttp(app);
+            app.Run();
+        }
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+        private static void InitializeRoutingAndHttp(WebApplication app)
+        {
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.MapStaticAssets();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}")
+                .WithStaticAssets();
+        }
 
-            var app = builder.Build();
-
+        private static void InitializeDevelopmentEnviroment(WebApplication app)
+        {
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -18,19 +35,36 @@ namespace Company.PortalWWW
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+        }
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
+        private static WebApplication ApplyBuilderPatternToBuildApp(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<CompanyContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CompanyContext") ?? throw new InvalidOperationException("Connection string 'CompanyContext' not found.")));
 
-            app.UseAuthorization();
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
 
-            app.MapStaticAssets();
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
+            var app = builder.Build();
+            return app;
+        }
 
-            app.Run();
+        private static void InitializeAutomaticMigrations(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                try
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<CompanyContext>();
+                    dbContext.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Error during database migration");
+                }
+            }
         }
     }
 }
