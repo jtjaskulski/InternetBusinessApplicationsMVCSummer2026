@@ -1,5 +1,5 @@
+using Company.Data.Data;
 using Microsoft.EntityFrameworkCore;
-using Company.Intranet.Data;
 namespace Company.Intranet
 {
     public class Program
@@ -39,8 +39,8 @@ namespace Company.Intranet
         private static WebApplication ApplyBuilderPatternToBuildApp(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<CompanyIntranetContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("CompanyIntranetContext") ?? throw new InvalidOperationException("Connection string 'CompanyIntranetContext' not found.")));
+            builder.Services.AddDbContext<CompanyContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CompanyContext") ?? throw new InvalidOperationException("Connection string 'CompanyContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -55,7 +55,7 @@ namespace Company.Intranet
             {
                 try
                 {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<CompanyIntranetContext>();
+                    var dbContext = scope.ServiceProvider.GetRequiredService<CompanyContext>();
                     dbContext.Database.Migrate();
                 }
                 catch (Exception ex)

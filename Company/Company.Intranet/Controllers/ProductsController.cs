@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Company.Data.Data;
+using Company.Data.Data.Shop;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Company.Intranet.Data;
-using Company.Intranet.Models.Shop;
 
 namespace Company.Intranet.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CompanyIntranetContext _context;
+        private readonly CompanyContext _context;
 
-        public ProductsController(CompanyIntranetContext context)
+        public ProductsController(CompanyContext context)
         {
             _context = context;
         }

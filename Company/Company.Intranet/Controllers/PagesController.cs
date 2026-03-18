@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Company.Data.Data;
+using Company.Data.Data.CMS;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Company.Intranet.Data;
-using Company.Intranet.Models.CMS;
 
 namespace Company.Intranet.Controllers
 {
     public class PagesController : Controller
     {
-        private readonly CompanyIntranetContext _context;
+        private readonly CompanyContext _context;
 
-        public PagesController(CompanyIntranetContext context)
+        public PagesController(CompanyContext context)
         {
             _context = context;
         }
