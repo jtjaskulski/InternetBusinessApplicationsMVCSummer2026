@@ -1,28 +1,23 @@
-﻿using System.Diagnostics;
-using Company.Data.Data;
-using Company.PortalWWW.Models;
+﻿using Company.Data.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.PortalWWW.Controllers
 {
-    public class ShopController : Controller
+    public class ShopController(ILogger<ShopController> _logger, CompanyContext _context) : Controller
     {
-        private ILogger<ShopController> _logger;
-        private CompanyContext _context;
-
-        public ShopController(ILogger<ShopController> logger, CompanyContext context)
+        public async Task<IActionResult> Index(int? id)
         {
-            _logger = logger;
-            _context = context;
+            if (id == null)
+            {
+                var firstType = await _context.Category.FirstOrDefaultAsync();
+                if (firstType == null)
+                {
+                    return NotFound();
+                }
+                id = firstType.IdCategory;
+            }
+            return View(await _context.Product.Where(t => t.IdCategory == id).ToListAsync());
         }
-
-        public IActionResult Index() => View();
-
-        public IActionResult Contact() => View();
-
-        public IActionResult About() => View();
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
