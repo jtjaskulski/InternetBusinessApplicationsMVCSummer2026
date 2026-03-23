@@ -1,0 +1,22 @@
+﻿@model Company.Data.Data.Shop.Product
+@{
+    ViewData["Title"] = "Details of product";
+    Layout = "~/Views/Shared/_ShopLayout.cshtml";
+}
+<div class="container">
+    <br><br>
+    <h1 class="header center orange-text">@Model.Name</h1>
+    <div class="row center">
+        <h5 class="header col s12 light">@Model.Description</h5>
+    </div>
+    <div class="row center">
+        <h5 class="header col s12 light">@Model.Price</h5>
+    </div>
+    <div class="row center">
+        <h5 class="header col s12 light">@Model.Code</h5>
+    </div>
+    <div class="row center">
+        <a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@Model.IdProduct" class="btn-large waves-effect waves-light orange">Add to Cart</a>
+    </div>
+    <br><br>
+</div>
