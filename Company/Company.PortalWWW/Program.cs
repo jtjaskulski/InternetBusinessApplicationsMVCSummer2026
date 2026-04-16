@@ -24,6 +24,7 @@ namespace Company.PortalWWW
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
+            app.UseSession();
         }
 
         private static void InitializeDevelopmentEnviroment(WebApplication app)
@@ -45,9 +46,22 @@ namespace Company.PortalWWW
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            RegisterSession(builder);
             var app = builder.Build();
             return app;
+        }
+
+        private static void RegisterSession(WebApplicationBuilder builder)
+        {
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(40);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
         }
 
         private static void InitializeAutomaticMigrations(WebApplication app)
