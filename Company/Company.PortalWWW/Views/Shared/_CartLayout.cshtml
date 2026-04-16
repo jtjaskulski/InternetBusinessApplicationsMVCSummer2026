@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+@await Html.PartialAsync("_Header")
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo">Company!</a>
+            <ul class="right hide-on-med-and-down">
+                <li>@Html.ActionLink("Shop", "Index", "Shop")</li>
+            </ul>
+            <ul id="nav-mobile" class="sidenav">
+                <li>
+                    <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
+                </li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        @RenderBody()
+    </div>
+    @await Html.PartialAsync("_IconsSection")
+    @await Html.PartialAsync("_Footer")
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/materialize/js/materialize.js"></script>
+    <script src="~/lib/materialize/js/materialize.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

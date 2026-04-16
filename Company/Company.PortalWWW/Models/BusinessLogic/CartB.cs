@@ -109,5 +109,36 @@ namespace Company.PortalWWW.Models.BusinessLogic
 
             return await items.SumAsync() ?? decimal.Zero;
         }
+
+        public async Task ConvertToOrder(Order order, HttpContext httpContext)
+        {
+            order.OrderDate = DateTime.Now;
+            order.Login = httpContext.User?.Identity?.Name ?? "ArturKornatkaTheBest";
+
+            var orderPositions = await GetCartItems();
+            order.Total = await GetTotal();
+            await _context.AddAsync(order);
+
+            await _context.SaveChangesAsync();
+
+            foreach (var item in orderPositions)
+            {
+                if (item == null)
+                {
+                    continue;
+                }
+                var orderPosition = new OrderPosition
+                {
+                    IdOrder = order.IdOrder,
+                    CreatedDate = DateTime.Now,
+                    IdProduct = item.IdProduct,
+                    Price = item.Product?.Price ?? 0,
+                    Quantity = item.Quantity
+                };
+                await _context.AddAsync(orderPosition);
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

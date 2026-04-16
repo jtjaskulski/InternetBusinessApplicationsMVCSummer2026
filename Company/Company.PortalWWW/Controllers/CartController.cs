@@ -2,7 +2,6 @@
 using Company.PortalWWW.Models.BusinessLogic;
 using Company.PortalWWW.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Company.PortalWWW.Controllers
 {

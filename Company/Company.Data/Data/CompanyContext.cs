@@ -16,6 +16,8 @@ public class CompanyContext : DbContext
     public DbSet<Product> Product { get; set; } = default!;
     public DbSet<Category> Category { get; set; } = default!;
     public DbSet<CartItem> CartItem { get; set; } = default!;
+    public DbSet<OrderPosition> OrderPosition { get; set; } = default!;
+    public DbSet<Order> Order { get; set; } = default!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
