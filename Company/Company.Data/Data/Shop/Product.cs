@@ -25,6 +25,9 @@ public class Product
     [Display(Name = "Description")]
     public string Description { get; set; }
 
+    [Display(Name = "Is the product discounted?")]
+    public bool IsDiscount { get; set; }
+
     [Display(Name = "Category of the product")]
     public int IdCategory { get; set; }
 

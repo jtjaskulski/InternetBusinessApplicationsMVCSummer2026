@@ -1,8 +1,8 @@
-﻿using Company.Data.Data;
-using Company.Data.Data.Shop;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Company.Data.Data;
+using Company.Data.Data.Shop;
 
 namespace Company.Intranet.Controllers
 {
@@ -18,7 +18,8 @@ namespace Company.Intranet.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.Include(p => p.Category).ToListAsync());
+            var companyContext = _context.Product.Include(p => p.Category);
+            return View(await companyContext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -52,7 +53,7 @@ namespace Company.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProduct,Code,Name,Price,FotoURL,Description,IdCategory")] Product product)
+        public async Task<IActionResult> Create([Bind("IdProduct,Code,Name,Price,FotoURL,Description,IsDiscount,IdCategory")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace Company.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProduct,Code,Name,Price,FotoURL,Description,IdCategory")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProduct,Code,Name,Price,FotoURL,Description,IsDiscount,IdCategory")] Product product)
         {
             if (id != product.IdProduct)
             {

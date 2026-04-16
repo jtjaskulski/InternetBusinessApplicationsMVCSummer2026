@@ -21,6 +21,8 @@ namespace Company.PortalWWW.Controllers
             }
             return View(await _context.Product.Where(t => t.IdCategory == id).ToListAsync());
         }
+        public async Task<IActionResult> Discounts() 
+            => View(await _context.Product.Where(t => t.IsDiscount).ToListAsync());
 
         public async Task<IActionResult> Details(int? id) 
         {
