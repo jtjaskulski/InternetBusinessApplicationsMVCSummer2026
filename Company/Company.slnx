@@ -2,4 +2,5 @@
   <Project Path="Company.Data/Company.Data.csproj" />
   <Project Path="Company.Intranet/Company.Intranet.csproj" />
   <Project Path="Company.PortalWWW/Company.PortalWWW.csproj" />
+  <Project Path="ConsoleAsyncFun/ConsoleAsyncFun.csproj" />
 </Solution>
